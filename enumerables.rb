@@ -48,6 +48,29 @@ module Enumerable
     return false
   end
 
+  def my_count
+    counter = 0
+    if block_given?
+      for x in self do
+          counter += 1 if yield(x)
+      end
+    else  
+      counter = self.length
+    end
+    return counter
+  end      
+
+  def my_map
+    new_array = []
+    self.my_each { |x| new_array.push(yield(x))}
+    return new_array
+  end
+
+  def my_inject (argument = nil)
+      accumulator = nil
+      my_each { |item| accumulator = accumulator ? accumulator.send(argument, item) : item }
+      return accumulator  
+    end  
 end
 
 #tests
@@ -58,6 +81,12 @@ numbers = [5, 9, 2, 3, 415, 6, 98]
 # friends.my_each_with_index { |x, i| puts " #{x}, #{i}" }
 # friends.my_select { |x| x != "Leo" }
 # friends.my_all? { |x| x.length >= 3 }
-# friends.my_any? { |x| x.length >= 3 }
+# friends.my_any? { |x| x.length s>= 3 }
 # friends.my_none? { |x| x.length >= 3 }
+# friends.my_count { |x| x.length == 5 }
+# friends.my_map { |x| x.reverse }
+# friends.my_inject(:+)
+
+
+
 
