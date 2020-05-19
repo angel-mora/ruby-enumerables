@@ -17,7 +17,7 @@ module Enumerable
 
   def my_select
     selected = []
-    self.my_each { |x| selected << x if yield(x) }
+    my_each { |x| selected << x if yield(x) }
     puts selected
   end
 
