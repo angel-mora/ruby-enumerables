@@ -1,4 +1,4 @@
-require "enumerables.rb"
+require_relative 'enumerables.rb'
 
 # Tests, need to load them in another file
 friends = %w[Sharon Leo Leila Brian Arun Jean Pedro Keisuke Tláloc]
