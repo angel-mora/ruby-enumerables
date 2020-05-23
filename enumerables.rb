@@ -8,6 +8,8 @@ module Enumerable
   end
 
   def my_each_with_index
+    # unless block_given?
+    # to_enum 
     i = 0
     while i < length
       yield(self[i], i)
@@ -16,24 +18,35 @@ module Enumerable
   end
 
   def my_select
+    # unless block_given?
+    # to_enum 
     selected = []
     my_each { |x| selected << x if yield(x) }
-    puts selected
+    selected
   end
 
   def my_all?
     for x in self do
       # if block_given?
-      unless yield(x)
-        return false
-      end
-      # else if not block_given?
+        unless yield(x)
+          return false
+        end
+      # elseif not block_given?
         # add implicit block { |obj| obj }
+      # elseif Regex
+      # else Class 
     end
     true
   end
 
   def my_any?
+    # unless block_given?
+    # to_enum
+    # if block_given?
+# elseif not block_given?
+        # add implicit block { |obj| obj }
+      # elseif Regex
+      # else Class 
     for x in self do
       if yield(x)
         return true
@@ -43,6 +56,11 @@ module Enumerable
   end 
 
   def my_none?
+    # if block_given?
+# elseif not block_given?
+        # add implicit block { |obj| obj }
+      # elseif Regex
+      # else Class 
     for x in self do
       unless yield(x)
         return true
@@ -64,6 +82,8 @@ module Enumerable
   end
 
   def my_map
+    # unless block_given?
+    # to_enum
     new_array = []
     my_each { |x| new_array.push(yield(x)) }
     new_array
