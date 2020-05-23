@@ -23,13 +23,16 @@ module Enumerable
 
   def my_all?
     for x in self do
+      # if block_given?
       unless yield(x)
         return false
       end
+      # else if not block_given?
+        # add implicit block { |obj| obj }
     end
     true
   end
-  
+
   def my_any?
     for x in self do
       if yield(x)
@@ -71,6 +74,9 @@ module Enumerable
     my_each { |item| accumulator = accumulator ? accumulator.send(argument, item) : item }
     accumulator
   end
-  # Multiply_els pending
+
+  def my_multiply_els
+    my_inject(:*)
+   end
 
 end
