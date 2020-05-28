@@ -1,3 +1,4 @@
+# rubocop:disable Style/CaseEquality
 module Enumerable
   def my_each
     x = 0
@@ -8,18 +9,18 @@ module Enumerable
   end
 
   def my_each_with_index
-    # unless block_given?
-    # to_enum 
-    i = 0
-    while i < length
-      yield(self[i], i)
-      i += 1
+    if block_given?
+      i = 0
+      while i < length
+        yield(self[i], i)
+        i += 1
+      end
+    else to_enum(:my_each_with_index)  
     end
   end
 
   def my_select
-    # unless block_given?
-    # to_enum 
+    return to_enum(:my_select) unless block_given?
     selected = []
     my_each { |x| selected << x if yield(x) }
     selected
@@ -43,7 +44,7 @@ module Enumerable
     # unless block_given?
     # to_enum
     # if block_given?
-# elseif not block_given?
+    # elseif not block_given?
         # add implicit block { |obj| obj }
       # elseif Regex
       # else Class 
@@ -64,7 +65,7 @@ module Enumerable
     for x in self do
       unless yield(x)
         return true
-      end  
+      end
     end
     false
   end
