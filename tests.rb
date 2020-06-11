@@ -13,11 +13,16 @@ friends.my_each { |x| puts x }
 friends.my_each_with_index { |x, i| puts "#{x}, #{i}" }
 
 # my_select test
-friends.select{|x| x != 'Leo'}
-friends.my_select { |x| x != 'Leo' }
+friends.select { |x| 'Leo' }
+friends.my_select { |x| 'Leo' }
 
 # my_all? test
-friends.my_all? { |x| x.length >= 3 }
+%w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+%w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+%w[ant bear cat].my_all?(/t/) #=> false
+[1, 2i, 3.14].my_all?(Numeric) #=> true
+[nil, true, 99].my_all? #=> false
+[].my_all? #=> true
 
 # my_any? test
 friends.my_any? { |x| x.length >= 3 }
@@ -37,3 +42,30 @@ numbers.my_inject(:+)
 # my_multiply_els test
 numbers.my_multiply_els
 
+#########################
+
+module Enumerable
+
+    def my_all? (x)
+      if block_given?
+        length.times do
+          yield (x) unless false
+        end
+      elsif self == Regexp
+        length.times do
+          yield unless false
+        end
+      end  
+      true
+    end
+    
+  end
+    
+  %w[ant bear cat].all?(/a/)
+  %w[ant bear cat].my_all?(/a/)
+  %w[ant bear cat].my_all? { |x| x.length >= 3 }
+  
+    
+  #try to do as mike and felipe
+  
+  

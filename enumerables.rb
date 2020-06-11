@@ -1,6 +1,7 @@
 # rubocop:disable Style/CaseEquality
 module Enumerable
   def my_each
+    return to_enum if block_given? == false
     x = 0
     while x < length
       yield(self[x])
@@ -9,13 +10,11 @@ module Enumerable
   end
 
   def my_each_with_index
-    if block_given?
-      i = 0
-      while i < length
-        yield(self[i], i)
-        i += 1
-      end
-    else to_enum(:my_each_with_index)  
+    return to_enum if block_given? == false
+    i = 0
+    while i < length
+      yield(self[i], i)
+      i += 1
     end
   end
 
@@ -26,16 +25,21 @@ module Enumerable
     selected
   end
 
-  def my_all?
-    for x in self do
-      # if block_given?
-        unless yield(x)
-          return false
-        end
-      # elseif not block_given?
-        # add implicit block { |obj| obj }
-      # elseif Regex
-      # else Class 
+  def my_all? (args = nil)
+    i = 0
+    while i < length
+      if block_given? == true
+        return false unless yield(self[i])
+      elsif args.class == Class
+        return false unless self[i].class.ancestors.include? args
+      elsif args.class == Regexp
+        return false unless self[i] =~ args
+      elsif args.nil? == true
+        return false unless self[i]
+      else
+        return false unless args[i] == self[i]
+      end
+      i += 1
     end
     true
   end
@@ -98,6 +102,5 @@ module Enumerable
 
   def my_multiply_els
     my_inject(:*)
-   end
-
+  end
 end
