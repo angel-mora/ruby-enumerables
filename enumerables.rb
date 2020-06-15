@@ -1,10 +1,14 @@
 module Enumerable
   def my_each
     return to_enum if block_given? == false
-
+    aux = if is_a? Range
+          to_a
+          else
+            self
+          end  
     x = 0
-    while x < length
-      yield(self[x])
+    while x < aux.length
+      yield(aux[x])
       x += 1
     end
   end
@@ -94,5 +98,13 @@ module Enumerable
       counter = length
     end
     counter
+  end
+
+  def my_map(proc = nil)
+    return to_enum unless block_given?
+
+    modified = []
+    proc ? my_each { |x| modified << proc.call(x)} : my_each { |x| modified << yield(x) }
+    modified
   end
 end
