@@ -13,7 +13,6 @@ friends.my_each { |x| puts x }
 friends.my_each_with_index { |x, i| puts "#{x}, #{i}" }
 
 # my_select test
-friends.select { |x| 'Leo' }
 friends.my_select { |x| 'Leo' }
 
 # my_all? test
@@ -25,13 +24,29 @@ friends.my_select { |x| 'Leo' }
 [].my_all? #=> true
 
 # my_any? test
-friends.my_any? { |x| x.length >= 3 }
+%w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+%w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+%w[ant bear cat].my_any?(/d/) #=> false
+[nil, true, 99].my_any?(Integer) #=> true
+[nil, true, 99].my_any? #=> true
+[].my_any? #=> false
 
 # my_none? test
-friends.my_none? { |x| x.length >= 3 }
+%w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
+%w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
+%w{ant bear cat}.my_none?(/d/) #=> true
+[1, 3.14, 42].my_none?(Float) #=> false
+[].my_none? #=> true
+[nil].my_none? #=> true
+[nil, false].my_none? #=> true
+[nil, false, true].my_none? #=> false
 
 # my_count test
 friends.my_count { |x| x.length == 5 }
+ary = [1, 2, 4, 2]
+ary.my_count #=> 4
+ary.my_count(2) #=> 2
+ary.my_count{ |x| x % 2 == 0 } #=> 3
 
 # my_map test
 friends.my_map { |x| x.reverse }
@@ -41,31 +56,3 @@ numbers.my_inject(:+)
 
 # my_multiply_els test
 numbers.my_multiply_els
-
-#########################
-
-module Enumerable
-
-    def my_all? (x)
-      if block_given?
-        length.times do
-          yield (x) unless false
-        end
-      elsif self == Regexp
-        length.times do
-          yield unless false
-        end
-      end  
-      true
-    end
-    
-  end
-    
-  %w[ant bear cat].all?(/a/)
-  %w[ant bear cat].my_all?(/a/)
-  %w[ant bear cat].my_all? { |x| x.length >= 3 }
-  
-    
-  #try to do as mike and felipe
-  
-  

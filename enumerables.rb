@@ -1,7 +1,7 @@
-# rubocop:disable Style/CaseEquality
 module Enumerable
   def my_each
     return to_enum if block_given? == false
+
     x = 0
     while x < length
       yield(self[x])
@@ -11,6 +11,7 @@ module Enumerable
 
   def my_each_with_index
     return to_enum if block_given? == false
+
     i = 0
     while i < length
       yield(self[i], i)
@@ -20,12 +21,13 @@ module Enumerable
 
   def my_select
     return to_enum(:my_select) unless block_given?
+
     selected = []
     my_each { |x| selected << x if yield(x) }
     selected
   end
 
-  def my_all? (args = nil)
+  def my_all?(args = nil)
     i = 0
     while i < length
       if block_given? == true
@@ -44,63 +46,53 @@ module Enumerable
     true
   end
 
-  def my_any?
-    # unless block_given?
-    # to_enum
-    # if block_given?
-    # elseif not block_given?
-        # add implicit block { |obj| obj }
-      # elseif Regex
-      # else Class 
-    for x in self do
-      if yield(x)
-        return true
-      end  
-    end
-    false
-  end 
-
-  def my_none?
-    # if block_given?
-# elseif not block_given?
-        # add implicit block { |obj| obj }
-      # elseif Regex
-      # else Class 
-    for x in self do
-      unless yield(x)
+  def my_any?(args = nil)
+    i = 0
+    while i < length
+      if block_given? == true
+        return true if yield(self[i])
+      elsif args.class == Class
+        return true if self[i].class.ancestors.include? args
+      elsif args.class == Regexp
+        return true if self[i] =~ args
+      elsif args.nil? == true
+        return true if self[i]
+      elsif args[i] == self[i]
         return true
       end
+      i += 1
     end
     false
   end
 
-  def my_count
+  def my_none?(args = nil)
+    i = 0
+    while i < length
+      if block_given? == true
+        return false if yield(self[i])
+      elsif args.class == Class
+        return false if self[i].class.ancestors.include? args
+      elsif args.class == Regexp
+        return false if self[i] =~ args
+      elsif args.nil? == true
+        return false if self[i]
+      elsif args[i] == self[i]
+        return false
+      end
+      i += 1
+    end
+    true
+  end
+
+  def my_count(args = nil)
     counter = 0
     if block_given?
-      for x in self do
-        counter += 1 if yield(x)
-      end
+      my_each { |x| counter += 1 if yield(x) }
+    elsif args
+      my_each { |x| counter += 1 if x == args }
     else
       counter = length
     end
     counter
-  end
-
-  def my_map
-    # unless block_given?
-    # to_enum
-    new_array = []
-    my_each { |x| new_array.push(yield(x)) }
-    new_array
-  end
-
-  def my_inject(argument = nil)
-    accumulator = nil
-    my_each { |item| accumulator = accumulator ? accumulator.send(argument, item) : item }
-    accumulator
-  end
-
-  def my_multiply_els
-    my_inject(:*)
   end
 end
