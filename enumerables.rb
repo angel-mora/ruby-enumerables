@@ -1,11 +1,12 @@
 module Enumerable
   def my_each
     return to_enum if block_given? == false
-    aux = if is_a? Range
-          to_a
+
+    aux = if is_a? Range # issue here
+            to_a
           else
             self
-          end  
+          end
     x = 0
     while x < aux.length
       yield(aux[x])
@@ -104,7 +105,31 @@ module Enumerable
     return to_enum unless block_given?
 
     modified = []
-    proc ? my_each { |x| modified << proc.call(x)} : my_each { |x| modified << yield(x) }
+    proc ? my_each { |x| modified << proc.call(x) } : my_each { |x| modified << yield(x) }
     modified
+  end
+
+  def my_inject(*args)
+    if args[0].is_a? Integer
+      accumulator = args[0]
+      symbol = args[1]
+    else
+      symbol = args[0]
+    end
+
+    if block_given? && args.size == 1
+      my_each { |x| accumulator = yield(accumulator, x) }
+    elsif args.size == 2
+      my_each { |x| accumulator = accumulator.send(symbol, x) }
+    elsif block_given?
+      my_each { |x| accumulator = accumulator ? yield(accumulator, x) : x }
+    else
+      my_each { |x| accumulator = accumulator ? accumulator.send(symbol, x) : x }
+    end
+    accumulator
+  end
+
+  def my_multiply_els
+    my_inject { |x, y| x * y }
   end
 end

@@ -13,7 +13,7 @@ friends.my_each { |x| puts x }
 friends.my_each_with_index { |x, i| puts "#{x}, #{i}" }
 
 # my_select test
-friends.my_select { |x| 'Leo' }
+friends.my_select { 'Leo' }
 
 # my_all? test
 %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
@@ -32,9 +32,9 @@ friends.my_select { |x| 'Leo' }
 [].my_any? #=> false
 
 # my_none? test
-%w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
-%w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
-%w{ant bear cat}.my_none?(/d/) #=> true
+%w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
+%w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
+%w[ant bear cat].my_none?(/d/) #=> true
 [1, 3.14, 42].my_none?(Float) #=> false
 [].my_none? #=> true
 [nil].my_none? #=> true
@@ -46,13 +46,22 @@ friends.my_count { |x| x.length == 5 }
 ary = [1, 2, 4, 2]
 ary.my_count #=> 4
 ary.my_count(2) #=> 2
-ary.my_count{ |x| x % 2 == 0 } #=> 3
+ary.my_count(&:even?) #=> 3
 
 # my_map test
-friends.my_map { |x| x.reverse }
+(1..4).my_map { |i| i * i }
+(1..4).my_map { 'cat' }
 
 # my_inject test
 numbers.my_inject(:+)
+# Sum some numbers
+(5..10).my_inject(:+) #=> 45
+# Same using a block and inject
+(5..10).my_inject { |sum, n| sum + n } #=> 45
+# Multiply some numbers
+(5..10).my_inject(1, :*) #=> 151200
+# Same using a block
+(5..10).my_inject(1) { |product, n| product * n } #=> 151200
 
 # my_multiply_els test
-numbers.my_multiply_els
+(5..19).my_multiply_els
