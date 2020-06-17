@@ -63,5 +63,12 @@ numbers.my_inject(:+)
 # Same using a block
 (5..10).my_inject(1) { |product, n| product * n } #=> 151200
 
-# my_multiply_els test
-(5..19).my_multiply_els
+# multiply_els test
+ar = [2, 4, 5]
+ar.multiply_els
+
+# PR suggested tests
+(1..15).my_all?
+(1..15).my_any?
+(1..15).my_none?
+(1..15).my_count
