@@ -135,11 +135,12 @@ module Enumerable
     end
     accumulator
   end
-
 end
 
+public
+
 def multiply_els
-  my_inject(:*)
+  my_inject(1, :*)
 end
 
 # rubocop:enable Metrics/CyclomaticComplexity
