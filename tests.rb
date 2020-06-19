@@ -72,3 +72,25 @@ ar.multiply_els
 (1..15).my_any?
 (1..15).my_none?
 (1..15).my_count
+
+[1, 1, 1, 1, 1].my_all?
+
+# My each with index Range and Array passed
+
+(1..15).my_each_with_index
+
+hash1 = { font_size: 10, font_family: 'Arial', jimmy: 'timmy' }
+hash1.my_each_with_index
+
+%w[cat cat cat].all?('cat')
+%w[cat cat cat].my_all?('cat')
+
+%w[cat cat cat].none?('cat')
+%w[cat cat cat].my_none?('cat')
+
+%w[cat cat cat].any?('cat')
+%w[cat cat cat].my_any?('cat')
+
+(5..10).my_inject(1) # This will drop an error, case added by TSE request
+
+[2, 4, 5].multiply_els

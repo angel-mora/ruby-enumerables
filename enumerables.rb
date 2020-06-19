@@ -48,7 +48,7 @@ module Enumerable
       elsif args.nil? == true
         return false unless aux[i]
       else
-        return false unless args[i] == aux[i]
+        return false unless aux[i]
       end
       i += 1
     end
@@ -67,7 +67,7 @@ module Enumerable
         return true if aux[i] =~ args
       elsif args.nil? == true
         return true if aux
-      elsif args[i] == aux[i]
+      else
         return true
       end
       i += 1
@@ -87,7 +87,7 @@ module Enumerable
         return false if aux[i] =~ args
       elsif args.nil? == true
         return false if aux[i]
-      elsif args[i] == aux[i]
+      else
         return false
       end
       i += 1
@@ -130,6 +130,8 @@ module Enumerable
       my_each { |x| accumulator = accumulator.send(symbol, x) }
     elsif block_given?
       my_each { |x| accumulator = accumulator ? yield(accumulator, x) : x }
+    elsif block_given? == false
+      my_each { |x| accumulator = accumulator ? yield(accumulator, x) : x }
     else
       my_each { |x| accumulator = accumulator ? accumulator.send(symbol, x) : x }
     end
@@ -140,7 +142,7 @@ end
 public
 
 def multiply_els
-  my_inject(1, :*)
+  inject(1) { |product, n| product * n }
 end
 
 # rubocop:enable Metrics/CyclomaticComplexity
