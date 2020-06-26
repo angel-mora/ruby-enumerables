@@ -139,14 +139,12 @@ module Enumerable
   end
 end
 
-public
+# public
 
-def multiply_els
-  inject(1) { |product, n| product * n }
-end
+# def multiply_els
+#   inject(1) { |product, n| product * n }
+# end
 
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/ModuleLength
-
-include Enumerable
