@@ -1,5 +1,5 @@
 # spec/enumerables_tests.rb
-require './enumerables.rb'
+require_relative '../enumerables'
 
 describe Enumerable do
   include Enumerable
