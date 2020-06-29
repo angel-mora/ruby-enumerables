@@ -52,4 +52,44 @@ describe Enumerable do
       end
     end
   end
+
+  let(:array_of_strings) { %w[ant bear cat] }
+  let(:eg_range) { (1..15) }
+  describe '#my_all?' do
+    context 'when object is an array' do
+      it '#my_all?' do
+        # %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+        output = array_of_strings.my_all? { |word| word.length >= 4 }
+        expect(output).to eql(false)
+      end
+    end
+    context 'when object is not an array' do
+      # e.g. a Range or a Hash
+      it '#my_all?' do
+        output = eg_range.my_all? { |x| x > 0 }
+        expect(output).to eql(true)
+      end
+    end
+    context 'when a block is given and arguments class is not regexp' do
+      # [1, 2i, 3.14].my_all?(Numeric) #=> true
+      it '#my_all?' do
+      end
+    end
+    context 'when a block is given and arguments class is regexp' do
+      it '#my_all?' do
+      end
+      # %w[ant bear cat].my_all?(/t/) #=> false
+    end
+    context 'when no block given, no arguments given and object is an empty array' do
+      it '#my_all?' do
+      end
+      # [].my_all? #=> true
+    end
+    context 'when no block given and no arguments given' do
+      it '#my_all?' do
+      end
+      # [nil, true, 99].my_all? #=> false
+    end
+  end
+
 end
