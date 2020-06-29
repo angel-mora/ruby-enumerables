@@ -73,22 +73,30 @@ describe Enumerable do
     context 'when a block is given and arguments class is not regexp' do
       # [1, 2i, 3.14].my_all?(Numeric) #=> true
       it '#my_all?' do
+        output = [1, 2i, 3.14].my_all?(Numeric)
+        expect(output).to eql(true)
       end
     end
     context 'when a block is given and arguments class is regexp' do
-      it '#my_all?' do
-      end
       # %w[ant bear cat].my_all?(/t/) #=> false
+      it '#my_all?' do
+        output = %w[ant bear cat].my_all?(/t/)
+        expect(output).to eql(false)
+      end
     end
     context 'when no block given, no arguments given and object is an empty array' do
-      it '#my_all?' do
-      end
       # [].my_all? #=> true
+      it '#my_all?' do
+        output = [].my_all?
+        expect(output).to eql(true)
+      end
     end
     context 'when no block given and no arguments given' do
-      it '#my_all?' do
-      end
       # [nil, true, 99].my_all? #=> false
+      it '#my_all?' do
+        output = [nil, true, 99].my_all?
+        expect(output).to eql(false)
+      end
     end
   end
 
