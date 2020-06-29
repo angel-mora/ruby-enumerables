@@ -144,4 +144,49 @@ describe Enumerable do
       end
     end
   end
+
+  describe '#my_none?' do
+    context 'when object is an array' do
+      it '#my_none?' do
+        # %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
+        output = array_of_strings.my_none? { |word| word.length  == 5 }
+        expect(output).to eql(true)
+      end
+    end
+    context 'when object is not an array' do
+      # e.g. a Range or a Hash
+      it '#my_none?' do
+        output = eg_range.my_none? { |x| x > 0 }
+        expect(output).to eql(false)
+      end
+    end
+    context 'when a block is given and arguments class is not regexp' do
+      # [1, 2i, 3.14].my_none?(Integer) #=> true
+      it '#my_none?' do
+        output = [1, 2i, 3.14].my_none?(Float)
+        expect(output).to eql(false)
+      end
+    end
+    context 'when a block is given and arguments class is regexp' do
+      # %w[ant bear cat].my_none?(/d/) #=> false
+      it '#my_none?' do
+        output = %w[ant bear cat].my_none?(/d/)
+        expect(output).to eql(true)
+      end
+    end
+    context 'when no block given, no arguments given and object is an empty array' do
+      # [].my_none? #=> false
+      it '#my_none?' do
+        output = [].my_none?
+        expect(output).to eql(true)
+      end
+    end
+    context 'when no block given and no arguments given' do
+      # [nil, true, 99].my_none? #=> true
+      it '#my_none?' do
+        output = [nil, true, 99].my_none?
+        expect(output).to eql(false)
+      end
+    end
+  end
 end
