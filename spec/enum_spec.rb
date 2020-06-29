@@ -100,4 +100,48 @@ describe Enumerable do
     end
   end
 
+  describe '#my_any?' do
+    context 'when object is an array' do
+      it '#my_any?' do
+        # %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+        output = array_of_strings.my_any? { |word| word.length >= 4 }
+        expect(output).to eql(true)
+      end
+    end
+    context 'when object is not an array' do
+      # e.g. a Range or a Hash
+      it '#my_any?' do
+        output = eg_range.my_any? { |x| x > 0 }
+        expect(output).to eql(true)
+      end
+    end
+    context 'when a block is given and arguments class is not regexp' do
+      # [1, 2i, 3.14].my_any?(Integer) #=> true
+      it '#my_any?' do
+        output = [1, 2i, 3.14].my_any?(Integer)
+        expect(output).to eql(true)
+      end
+    end
+    context 'when a block is given and arguments class is regexp' do
+      # %w[ant bear cat].my_any?(/d/) #=> false
+      it '#my_any?' do
+        output = %w[ant bear cat].my_any?(/d/)
+        expect(output).to eql(false)
+      end
+    end
+    context 'when no block given, no arguments given and object is an empty array' do
+      # [].my_any? #=> false
+      it '#my_any?' do
+        output = [].my_any?
+        expect(output).to eql(false)
+      end
+    end
+    context 'when no block given and no arguments given' do
+      # [nil, true, 99].my_any? #=> true
+      it '#my_any?' do
+        output = [nil, true, 99].my_any?
+        expect(output).to eql(true)
+      end
+    end
+  end
 end
