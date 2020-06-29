@@ -189,4 +189,23 @@ describe Enumerable do
       end
     end
   end
+
+  describe '#my_count' do
+    let(:ary) { [1, 2, 4, 2] }
+    context 'no block given' do
+      it '#my_count' do
+        expect(ary.my_count).to eql(4)
+      end
+    end
+    context 'block given and arguments not nil' do
+      # ary.my_count(2) #=> 2
+      it '#my_count' do
+        expect(ary.my_count(2)).to eql(2)
+      end
+      it '#my_count' do
+        expect(ary.my_count(&:even?)).to eql(3)
+      end
+    end
+  end
+
 end
