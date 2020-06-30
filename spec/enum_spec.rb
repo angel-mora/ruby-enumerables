@@ -237,4 +237,47 @@ describe Enumerable do
     #   end
     # end
   end
+
+  describe 'my_inject' do
+    let(:numbers) { [5, 9, 2, 3, 415, 6, 98] }
+    context 'only one argument and argument is a symbol' do
+      it 'my_inject' do
+        output = numbers.my_inject(:+)
+        expect(output).to eql([5, 9, 2, 3, 415, 6, 98].inject(:+))
+      end
+    end
+    context 'only one argument and argument is not a symbol' do
+      it 'my_inject' do
+        # output = numbers.my_inject(1)
+        # expect(output).to return TypeError
+      end
+    end
+    context 'object is not an array but a Range, arg is a symbol' do
+      it 'my_inject' do
+        output = (5..10).my_inject(:+)
+        expect(output).to eql((5..10).inject(:+))
+      end
+    end
+    context 'method has a block and no arguments' do
+      it 'my_inject' do
+        output = (5..10).my_inject { |sum, n| sum + n }
+        expected = (5..10).inject { |sum, n| sum + n }
+        expect(output).to eql(expected)
+      end
+    end
+    context 'method has a block and an argument' do
+      it 'my_inject' do
+        output = (5..10).my_inject(1) { |product, n| product * n }
+        expected = (5..10).inject(1) { |product, n| product * n }
+        expect(output).to eql(expected)
+      end
+    end
+    context 'method has two arguments' do
+      it 'my_inject' do
+        output = (5..10).my_inject(1, :*)
+        expected = (5..10).inject(1, :*)
+        expect(output).to eql(expected)
+      end
+    end
+  end
 end
