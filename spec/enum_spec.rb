@@ -149,7 +149,7 @@ describe Enumerable do
     context 'when object is an array' do
       it '#my_none?' do
         # %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
-        output = array_of_strings.my_none? { |word| word.length  == 5 }
+        output = array_of_strings.my_none? { |word| word.length == 5 }
         expect(output).to eql(true)
       end
     end
@@ -208,4 +208,33 @@ describe Enumerable do
     end
   end
 
+  describe '#my_map' do
+    context 'when no block and no proc is given it returns Enumerable' do
+      it '#my_map' do
+        expect(eg_range.my_map).to be_an(friends.to_enum.class)
+      end
+    end
+    context 'when block is given and no proc argument' do
+      it '#my_map' do
+        output = (1..4).my_map do |item|
+          item * item
+        end
+        expect(output).to eql([1, 4, 9, 16])
+      end
+    end
+    context 'when no block is given and a proc is an argument' do
+      it '#my_map' do
+        test_proc = proc { |item| item * item }
+        output = (1..4).my_map(&test_proc)
+        expect(output).to eql([1, 4, 9, 16])
+      end
+    end
+    # context 'block is given and a proc is an argument, it should return the result of the proc and ignor the block' do
+    #   it "#my_map" do
+    #     test_proc = proc {|item| item * item }
+    #     output = (1..4).my_map( &test_proc ) {|item| item + 1 }
+    #     expect(output).to eql( [1, 4, 9, 16] )
+    #   end
+    # end
+  end
 end
