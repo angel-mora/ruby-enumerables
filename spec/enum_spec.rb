@@ -246,12 +246,12 @@ describe Enumerable do
         expect(output).to eql([5, 9, 2, 3, 415, 6, 98].inject(:+))
       end
     end
-    context 'only one argument and argument is not a symbol' do
-      it 'my_inject' do
-        # output = numbers.my_inject(1)
-        # expect(output).to return TypeError
-      end
-    end
+    # context 'only one argument and argument is not a symbol' do
+    #   it 'my_inject' do
+    #     # output = numbers.my_inject(1)
+    #     # expect(output).to return TypeError
+    #   end
+    # end
     context 'object is not an array but a Range, arg is a symbol' do
       it 'my_inject' do
         output = (5..10).my_inject(:+)
