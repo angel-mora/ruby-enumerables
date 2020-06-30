@@ -248,8 +248,8 @@ describe Enumerable do
     end
     # context 'only one argument and argument is not a symbol' do
     #   it 'my_inject' do
-    #     # output = numbers.my_inject(1)
-    #     # expect(output).to return TypeError
+    #     output = numbers.my_inject(1)
+    #     expect(output).to return TypeError
     #   end
     # end
     context 'object is not an array but a Range, arg is a symbol' do
