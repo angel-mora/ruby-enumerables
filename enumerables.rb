@@ -181,11 +181,8 @@ module Enumerable
     else my_symbol.nil? && my_initial.nil? && !block_given?
          return to_enum(:my_inject)
     end
-
     cumulator
   end
-
-
 end
 
 # public
