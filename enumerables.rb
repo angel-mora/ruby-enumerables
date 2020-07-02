@@ -116,27 +116,76 @@ module Enumerable
     modified
   end
 
-  def my_inject(*args)
-    if args[0].is_a? Integer
-      accumulator = args[0]
-      symbol = args[1]
-    else
-      symbol = args[0]
+  # def my_inject(*args)
+  #   if args[0].is_a? Integer
+  #     accumulator = args[0]
+  #     symbol = args[1]
+  #   else
+  #     symbol = args[0]
+  #   end
+
+  #   if block_given? && args.size == 1
+  #     my_each { |x| accumulator = yield(accumulator, x) }
+  #   elsif args.size == 2
+  #     my_each { |x| accumulator = accumulator.send(symbol, x) }
+  #   elsif block_given?
+  #     my_each { |x| accumulator = accumulator ? yield(accumulator, x) : x }
+  #   elsif block_given? == false
+  #     my_each { |x| accumulator = accumulator ? yield(accumulator, x) : x }
+  #   else
+  #     my_each { |x| accumulator = accumulator ? accumulator.send(symbol, x) : x }
+  #   end
+  #   accumulator
+  # end
+
+  def my_inject(*parameter) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/AbcSize
+    return 'wrong number of arguments' unless parameter.size <= 2
+
+    output_array = is_a?(Array) ? self : to_a
+    my_symbol = nil
+    my_initial = nil
+    parameter.each do |elem|
+      if elem.is_a?(Symbol)
+        my_symbol = elem
+      else
+        my_initial = elem
+      end
     end
 
-    if block_given? && args.size == 1
-      my_each { |x| accumulator = yield(accumulator, x) }
-    elsif args.size == 2
-      my_each { |x| accumulator = accumulator.send(symbol, x) }
-    elsif block_given?
-      my_each { |x| accumulator = accumulator ? yield(accumulator, x) : x }
-    elsif block_given? == false
-      my_each { |x| accumulator = accumulator ? yield(accumulator, x) : x }
-    else
-      my_each { |x| accumulator = accumulator ? accumulator.send(symbol, x) : x }
+    if !my_symbol.nil? && !my_initial.nil?
+      cumulator = my_initial
+      each do |elem|
+        cumulator = cumulator.send(my_symbol, elem)
+      end
+    elsif !my_symbol.nil? && my_initial.nil?
+      cumulator = output_array[0]
+      i = 1
+      while i < size
+        cumulator = cumulator.send(my_symbol, output_array[i])
+        i += 1
+      end
+    elsif my_symbol.nil? && !my_initial.nil? && block_given?
+      cumulator = my_initial
+      each do |elem|
+        cumulator = yield cumulator, elem
+      end
+    elsif my_symbol.nil? && !my_initial.nil? && !block_given?
+      return "error #{my_initial} not a symbol and no block is given"
+    elsif my_symbol.nil? && my_initial.nil? && block_given?
+      cumulator = output_array[0]
+      i = 1
+      while i < size
+        cumulator = yield cumulator, output_array[i]
+        i += 1
+      end
+    else my_symbol.nil? && my_initial.nil? && !block_given?
+         return to_enum(:my_inject)
     end
-    accumulator
+
+    cumulator
   end
+
+
 end
 
 # public
