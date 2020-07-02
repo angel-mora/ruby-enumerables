@@ -58,41 +58,35 @@ describe Enumerable do
   describe '#my_all?' do
     context 'when object is an array' do
       it '#my_all?' do
-        # %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
         output = array_of_strings.my_all? { |word| word.length >= 4 }
         expect(output).to eql(false)
       end
     end
     context 'when object is not an array' do
-      # e.g. a Range or a Hash
       it '#my_all?' do
         output = eg_range.my_all? { |x| x > 0 }
         expect(output).to eql(true)
       end
     end
     context 'when a block is given and arguments class is not regexp' do
-      # [1, 2i, 3.14].my_all?(Numeric) #=> true
       it '#my_all?' do
         output = [1, 2i, 3.14].my_all?(Numeric)
         expect(output).to eql(true)
       end
     end
     context 'when a block is given and arguments class is regexp' do
-      # %w[ant bear cat].my_all?(/t/) #=> false
       it '#my_all?' do
         output = %w[ant bear cat].my_all?(/t/)
         expect(output).to eql(false)
       end
     end
     context 'when no block given, no arguments given and object is an empty array' do
-      # [].my_all? #=> true
       it '#my_all?' do
         output = [].my_all?
         expect(output).to eql(true)
       end
     end
     context 'when no block given and no arguments given' do
-      # [nil, true, 99].my_all? #=> false
       it '#my_all?' do
         output = [nil, true, 99].my_all?
         expect(output).to eql(false)
@@ -103,41 +97,35 @@ describe Enumerable do
   describe '#my_any?' do
     context 'when object is an array' do
       it '#my_any?' do
-        # %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
         output = array_of_strings.my_any? { |word| word.length >= 4 }
         expect(output).to eql(true)
       end
     end
     context 'when object is not an array' do
-      # e.g. a Range or a Hash
       it '#my_any?' do
         output = eg_range.my_any? { |x| x > 0 }
         expect(output).to eql(true)
       end
     end
     context 'when a block is given and arguments class is not regexp' do
-      # [1, 2i, 3.14].my_any?(Integer) #=> true
       it '#my_any?' do
         output = [1, 2i, 3.14].my_any?(Integer)
         expect(output).to eql(true)
       end
     end
     context 'when a block is given and arguments class is regexp' do
-      # %w[ant bear cat].my_any?(/d/) #=> false
       it '#my_any?' do
         output = %w[ant bear cat].my_any?(/d/)
         expect(output).to eql(false)
       end
     end
     context 'when no block given, no arguments given and object is an empty array' do
-      # [].my_any? #=> false
       it '#my_any?' do
         output = [].my_any?
         expect(output).to eql(false)
       end
     end
     context 'when no block given and no arguments given' do
-      # [nil, true, 99].my_any? #=> true
       it '#my_any?' do
         output = [nil, true, 99].my_any?
         expect(output).to eql(true)
@@ -148,41 +136,35 @@ describe Enumerable do
   describe '#my_none?' do
     context 'when object is an array' do
       it '#my_none?' do
-        # %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
         output = array_of_strings.my_none? { |word| word.length == 5 }
         expect(output).to eql(true)
       end
     end
     context 'when object is not an array' do
-      # e.g. a Range or a Hash
       it '#my_none?' do
         output = eg_range.my_none? { |x| x > 0 }
         expect(output).to eql(false)
       end
     end
     context 'when a block is given and arguments class is not regexp' do
-      # [1, 2i, 3.14].my_none?(Integer) #=> true
       it '#my_none?' do
         output = [1, 2i, 3.14].my_none?(Float)
         expect(output).to eql(false)
       end
     end
     context 'when a block is given and arguments class is regexp' do
-      # %w[ant bear cat].my_none?(/d/) #=> false
       it '#my_none?' do
         output = %w[ant bear cat].my_none?(/d/)
         expect(output).to eql(true)
       end
     end
     context 'when no block given, no arguments given and object is an empty array' do
-      # [].my_none? #=> false
       it '#my_none?' do
         output = [].my_none?
         expect(output).to eql(true)
       end
     end
     context 'when no block given and no arguments given' do
-      # [nil, true, 99].my_none? #=> true
       it '#my_none?' do
         output = [nil, true, 99].my_none?
         expect(output).to eql(false)
@@ -229,13 +211,6 @@ describe Enumerable do
         expect(output).to eql([1, 4, 9, 16])
       end
     end
-    # context 'block is given and a proc is an argument, it should return the result of the proc and ignor the block' do
-    #   it "#my_map" do
-    #     test_proc = proc {|item| item * item }
-    #     output = (1..4).my_map( &test_proc ) {|item| item + 1 }
-    #     expect(output).to eql( [1, 4, 9, 16] )
-    #   end
-    # end
   end
 
   describe 'my_inject' do
@@ -246,12 +221,6 @@ describe Enumerable do
         expect(output).to eql([5, 9, 2, 3, 415, 6, 98].inject(:+))
       end
     end
-    # context 'only one argument and argument is not a symbol' do
-    #   it 'my_inject' do
-    #     output = numbers.my_inject(1)
-    #     expect(output).to return TypeError
-    #   end
-    # end
     context 'object is not an array but a Range, arg is a symbol' do
       it 'my_inject' do
         output = (5..10).my_inject(:+)
