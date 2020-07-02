@@ -180,7 +180,6 @@ describe Enumerable do
       end
     end
     context 'block given and arguments not nil' do
-      # ary.my_count(2) #=> 2
       it '#my_count' do
         expect(ary.my_count(2)).to eql(2)
       end
